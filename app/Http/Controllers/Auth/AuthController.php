@@ -10,7 +10,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 
-/**
+
+
+
+class AuthController extends Controller
+{
+    /**
  * @OA\Post(
  *     path="api/register",
  *     tags={"App"},
@@ -24,9 +29,6 @@ use Illuminate\Validation\ValidationException;
  *
 */
 
-
-class AuthController extends Controller
-{
     public function register(Request $request)
     {
         $user = User::create([
