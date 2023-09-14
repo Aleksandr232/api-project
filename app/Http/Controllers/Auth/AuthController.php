@@ -13,41 +13,53 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed',
-        ]);
-
-        $user = new User([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password)
         ]);
 
+        $userToken = $user->createToken('remember_token')->plainTextToken;
+        $user->remember_token = $userToken;
         $user->save();
 
-        return response()->json(['message' => 'Регистрация успешна'], 201);
+        return response()->json(['success'=>'Регистрация прошла успешно', 'token' => $userToken]);
     }
+
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
+        $validatedData = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($validatedData)) {
+            $user = Auth::user();
+            $userToken = $user->createToken('remember_token')->plainTextToken;
+            $user->remember_token = $userToken;
+            $user->save();
+            $username = $user->name;
+            $response = [
+                'message' => 'Успешно вошли в систему',
+                'token' => $userToken,
+                'access_code' => $user->access_code,
+                'username' => $username
+            ];
 
-        if (!Auth::attempt($credentials)) {
-            throw ValidationException::withMessages(['message' => 'Неверные учетные данные']);
+            return response()->json($response, 200);
+        } else {
+            return response()->json(['message' => 'Ошибка аутентификации'], 403);
         }
+    }
 
-        $user = $request->user();
+    public function logout(Request $request) {
 
-        $token = $user->createToken('API Token')->plainTextToken;
+        Auth::logout();
 
-        return response()->json(['token' => $token], 200);
+        $success_message = 'Пока!' . Auth::user()->name;
+        return response()->json(['success' => $success_message]);
+
     }
 
 }
