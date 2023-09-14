@@ -17,8 +17,13 @@ use App\Http\Controllers\Auth\AuthController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Запрещаем переход на другую страницу, если токен не прошел
+Route::middleware('auth:sanctum')->get('/dashboard', function (Request $request) {
+    if ($request->user()) {
+        return response()->json(['message' => 'Welcome to the dashboard']);
+    } else {
+        abort(401, 'Unauthorized');
+    }
 });
 
 
