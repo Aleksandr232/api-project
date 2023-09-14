@@ -61,7 +61,7 @@ class AuthController extends Controller
      *     path="api/login",
      *     tags={"Auth"},
      *     summary="Аутентификация пользователя",
-     *     description="Аутентификация пользователя на основе email и password",
+     *     description="Аутентификация пользователя на основе email и password и токена",
      *     @OA\RequestBody(
      *         description="Данные пользователя",
      *         required=true,
@@ -91,31 +91,36 @@ class AuthController extends Controller
      */
 
 
-    public function login(Request $request)
-    {
-        $validatedData = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+     public function login(Request $request)
+     {
+         $validatedData = $request->validate([
+             'email' => 'required|email',
+             'password' => 'required',
+         ]);
 
-        if (Auth::attempt($validatedData)) {
-            $user = Auth::user();
-            $userToken = $user->createToken('remember_token')->plainTextToken;
-            $user->remember_token = $userToken;
-            $user->save();
-            $username = $user->name;
-            $response = [
-                'message' => 'Успешно вошли в систему',
-                'token' => $userToken,
-                'access_code' => $user->access_code,
-                'username' => $username
-            ];
+         if (Auth::attempt($validatedData)) {
+             $user = Auth::user();
+             $userToken = $user->remember_token;
 
-            return response()->json($response, 200);
-        } else {
-            return response()->json(['message' => 'Ошибка аутентификации'], 403);
-        }
-    }
+             if (empty($userToken)) {
+                 $userToken = $user->createToken('remember_token')->plainTextToken;
+                 $user->remember_token = $userToken;
+                 $user->save();
+             }
+
+             $username = $user->name;
+             $response = [
+                 'message' => 'Успешно вошли в систему',
+                 'token' => $userToken,
+                 'access_code' => $user->access_code,
+                 'username' => $username
+             ];
+
+             return response()->json($response, 200);
+         } else {
+             return response()->json(['message' => 'Ошибка аутентификации'], 403);
+         }
+     }
 
       /**
      * @OA\Get(
