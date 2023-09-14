@@ -19,8 +19,8 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-      /*   $userToken = $user->createToken('remember_token')->plainTextToken;
-        $user->remember_token = $userToken; */
+        $userToken = $user->createToken('remember_token')->plainTextToken;
+        $user->remember_token = $userToken;
         $user->save();
 
         return response()->json(['success'=>'Регистрация прошла успешно']);
