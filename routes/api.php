@@ -20,7 +20,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // Запрещаем переход на другую страницу, если токен не прошел
 Route::middleware('auth:sanctum')->get('/dashboard', function (Request $request) {
     if ($request->user()) {
-        return response()->json(['message' => 'Добро пожаловать' . $username]);
+        return response()->json(['message' => 'Добро пожаловать']);
     } else {
         abort(401, 'Unauthorized');
     }
