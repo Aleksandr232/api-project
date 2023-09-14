@@ -9,6 +9,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
+
+/**
+ * @OA\Post(
+ *     path="api/register",
+ *     tags={"App"},
+ *     summary="Регистрация нового пользоваетля",
+ *     description="Создает нового пользователя",
+ *     @OA\Response(
+ *         response=200,
+ *         description="Успешная операция"
+ *     ),
+ * )
+ *
+*/
+
+
 class AuthController extends Controller
 {
     public function register(Request $request)
