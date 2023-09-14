@@ -130,15 +130,28 @@ class AuthController extends Controller
      *             @OA\Property(property="success", type="string", example="Пока! John Doe")
      *         )
      *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Пользователь не найден",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Пользователь не найден")
+     *         )
+     *     ),
      * )
      */
 
     public function logout(Request $request) {
+        $currentUser = Auth::user();
+
+        if ($currentUser) {
+        $username = $currentUser->name;
 
         Auth::logout();
+            return response()->json(['success' => 'Успешный выход из системы'], 200);
 
-        $success_message = 'Пока!' . Auth::user()->name;
-        return response()->json(['success' => $success_message]);
+        } else {
+            return response()->json(['error' => 'Пользователь не найден'], 404);
+        }
 
     }
 
