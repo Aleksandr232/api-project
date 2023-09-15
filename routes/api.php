@@ -43,7 +43,7 @@ Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
     if (!empty($user->remember_token)) {
         $user->remember_token = null;
         $user->save();
-        return response()->json(['message' => 'Вы успешно вышли из системы']);
+        return response()->json(['message' => 'Пока, ' . $user->name]);
     } else {
         abort(401, 'Unauthorized');
     }
