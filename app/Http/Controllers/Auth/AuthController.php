@@ -44,6 +44,7 @@ class AuthController extends Controller
  *                 ),
  *                 @OA\Property(
  *                     property="img",
+ *                     example="img"
  *                     type="file",
  *                     description="Фото пользователя"
  *                 ),
