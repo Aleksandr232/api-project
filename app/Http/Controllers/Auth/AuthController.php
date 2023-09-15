@@ -67,16 +67,7 @@ class AuthController extends Controller
  */
 
     public function register(Request $request)
-    {   $validator = Validator::make([$request->all(),
-        'name' => 'required',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|min:6',
-        'img' => 'image|mimes:jpeg,png,jpg|max:2048',
-    ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors(), 400]);
-        }
+    {
 
         $user = User::create([
             'name' => $request->name,
@@ -84,19 +75,16 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        if($request -> hasFile('img')){
+        if($request->hasFile('img')){
             $img = $request->file('img');
             $path = Storage::disk('user')->putFile('photo', $img);
 
-            $file = new User;
-            $file->img = $img->getClientOriginalName();
-            $file->path = $path;
-            $file->save();
+            $user->img = $img->getClientOriginalName();
+            $user->path = $path;
+            $userToken = $user->createToken('remembertoken')->plainTextToken;
+            $user->remembertoken = $userToken;
+            $user->save();
         }
-
-        $userToken = $user->createToken('remember_token')->plainTextToken;
-        $user->remember_token = $userToken;
-        $user->save();
 
         return response()->json(['success'=>'Регистрация прошла успешно']);
     }
