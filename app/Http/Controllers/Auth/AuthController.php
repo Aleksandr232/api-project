@@ -81,8 +81,8 @@ class AuthController extends Controller
 
             $user->img = $img->getClientOriginalName();
             $user->path = $path;
-            $userToken = $user->createToken('remembertoken')->plainTextToken;
-            $user->remembertoken = $userToken;
+            $userToken = $user->createToken('remember_token')->plainTextToken;
+            $user->remember_token = $userToken;
             $user->save();
         }
 
