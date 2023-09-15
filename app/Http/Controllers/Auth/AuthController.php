@@ -15,30 +15,54 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-   /**
-     * @OA\Post(
-     *     path="api/register",
-     *     tags={"Авторизация и регистрация пользователя"},
-     *     summary="Регистрация нового пользователя",
-     *     description="Создает нового пользователя",
-     *     @OA\RequestBody(
-     *         description="Детали нового пользователя",
-     *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="email", type="string", format="email", example="johndoe@example.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="secret")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Успешная операция",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="string", example="Регистрация прошла успешно")
-     *         )
-     *     ),
-     * )
-     */
+/**
+ * @OA\Post(
+ *     path="/register",
+ *     summary="Зарегистрироваться",
+ *     tags={"User"},
+ *     @OA\RequestBody(
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 @OA\Property(
+ *                     property="name",
+ *                     type="string",
+ *                     example="John Doe",
+ *                     description="Имя пользователя"
+ *                 ),
+ *                 @OA\Property(
+ *                     property="email",
+ *                     type="string",
+ *                     example="john.doe@example.com",
+ *                     description="Email пользователя"
+ *                 ),
+ *                 @OA\Property(
+ *                     property="password",
+ *                     type="string",
+ *                     example="password",
+ *                     description="Пароль пользователя"
+ *                 ),
+ *                 @OA\Property(
+ *                     property="img",
+ *                     type="file",
+ *                     description="Фото пользователя"
+ *                 ),
+ *             ),
+ *         ),
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Успешная регистрация",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="success",
+ *                 type="string",
+ *                 example="Регистрация прошла успешно"
+ *             ),
+ *         ),
+ *     ),
+ * )
+ */
 
     public function register(Request $request)
     {
@@ -47,6 +71,16 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password)
         ]);
+
+        if($request -> hasFile('img')){
+            $img = $request->file('img');
+            $path = Storage::disk('user')->putFile('photo', $img);
+
+
+            $user->img = $img->getClientOriginalName();
+            $user->path = $path;
+            $user->save();
+        }
 
         $userToken = $user->createToken('remember_token')->plainTextToken;
         $user->remember_token = $userToken;
