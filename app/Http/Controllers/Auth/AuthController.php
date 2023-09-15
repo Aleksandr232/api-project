@@ -18,7 +18,7 @@ class AuthController extends Controller
    /**
      * @OA\Post(
      *     path="api/register",
-     *     tags={"Auth"},
+     *     tags={"Авторизация и регистрация пользователя"},
      *     summary="Регистрация нового пользователя",
      *     description="Создает нового пользователя",
      *     @OA\RequestBody(
@@ -59,7 +59,7 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *     path="api/login",
-     *     tags={"Auth"},
+     *     tags={"Авторизация и регистрация пользователя"},
      *     summary="Аутентификация пользователя",
      *     description="Аутентификация пользователя на основе email и password и токена",
      *     @OA\RequestBody(
@@ -124,7 +124,7 @@ class AuthController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/dashboard",
+     *     path="api/dashboard",
      *     tags={"Панель управления"},
      *     summary="Получить панель управления пользователя",
      *     security={{"bearerAuth":{}}},
