@@ -169,7 +169,7 @@ class AuthController extends Controller
       /**
      * @OA\Post(
      *    path="api/logout",
-     *     tags={"Auth"},
+     *     tags={"Панель управления"},
      *     summary="Выход из системы",
      *     description="Выход текущего аутентифицированного пользователя из системы",
      *     @OA\Response(
