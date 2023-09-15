@@ -19,7 +19,7 @@ class AuthController extends Controller
  * @OA\Post(
  *     path="/register",
  *     summary="Зарегистрироваться",
- *     tags={"User"},
+ *     tags={"Авторизация и регистрация пользователя"},
  *     @OA\RequestBody(
  *         @OA\MediaType(
  *             mediaType="application/json",
