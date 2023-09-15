@@ -77,10 +77,10 @@ class AuthController extends Controller
             $img = $request->file('img');
             $path = Storage::disk('user')->putFile('photo', $img);
 
-
-            $user->img = $img->getClientOriginalName();
-            $user->path = $path;
-            $user->save();
+            $file = new User;
+            $file->img = $img->getClientOriginalName();
+            $file->path = $path;
+            $file->save();
         }
 
         $userToken = $user->createToken('remember_token')->plainTextToken;
