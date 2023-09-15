@@ -16,7 +16,7 @@ use App\Http\Controllers\Auth\AuthController;
 */
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout']);
+/* Route::get('/logout', [AuthController::class, 'logout']); */
 
 // Запрещаем переход на другую страницу, если токен не прошел
 /* Route::middleware('auth:sanctum')->get('/dashboard', function (Request $request) {
