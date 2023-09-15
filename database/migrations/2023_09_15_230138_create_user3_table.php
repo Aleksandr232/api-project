@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('img');
-            $table->string('path');
+            $table->string('img')->nullable();
         });
     }
 
@@ -22,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user2');
+        Schema::dropIfExists('user3');
     }
 };
