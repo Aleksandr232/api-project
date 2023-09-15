@@ -122,8 +122,52 @@ class AuthController extends Controller
          }
      }
 
-      /**
+    /**
      * @OA\Get(
+     *     path="/dashboard",
+     *     tags={"Панель управления"},
+     *     summary="Получить панель управления пользователя",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Успешный ответ с именем пользователя",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Приветственное сообщение с именем пользователя",
+     *                 example="Добро пожаловать, Пользователь"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Ошибка авторизации",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 description="Сообщение об ошибке, объясняющее неавторизованный доступ",
+     *                 example="Неавторизованный доступ"
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
+     public function dashboard(Request $request)
+     {
+        $user = $request->user();
+
+        if (!empty($user->remember_token)) {
+            return response()->json(['message' => 'Добро пожаловать, ' . $user->name]);
+        } else {
+            abort(401, 'Неавторизованный доступ');
+        }
+     }
+
+      /**
+     * @OA\Post(
      *    path="api/logout",
      *     tags={"Auth"},
      *     summary="Выход из системы",
@@ -146,16 +190,14 @@ class AuthController extends Controller
      */
 
     public function logout(Request $request) {
-        $currentUser = Auth::user();
+        $user = $request->user();
 
-        if ($currentUser) {
-        $username = $currentUser->name;
-
-        Auth::logout();
-            return response()->json(['success' => 'Успешный выход из системы'], 200);
-
+        if (!empty($user->remember_token)) {
+            $user->remember_token = null;
+            $user->save();
+                return response()->json(['message' => 'Пока, ' . $user->name]);
         } else {
-            return response()->json(['error' => 'Пользователь не найден'], 404);
+            abort(403, 'Пользователь не найден');
         }
 
     }
