@@ -210,14 +210,14 @@ class AuthController extends Controller
      *         response=200,
      *         description="Успешная операция",
      *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="string", example="Пока! John Doe")
+     *             @OA\Property(property="success_message", type="string", example="Пока! John Doe")
      *         )
      *     ),
      *     @OA\Response(
-     *         response=404,
+     *         response=403,
      *         description="Пользователь не найден",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Пользователь не найден")
+     *             @OA\Property(property="error_message", type="string", example="Пользователь не найден")
      *         )
      *     ),
      * )
@@ -229,9 +229,9 @@ class AuthController extends Controller
         if (!empty($user->remember_token)) {
             $user->remember_token = null;
             $user->save();
-                return response()->json(['message' => 'Пока, ' . $user->name]);
+                return response()->json(['success_message' => 'Пока, ' . $user->name]);
         } else {
-            abort(403, 'Пользователь не найден');
+            	return response()->json(['error_message' => 'Пользователь не найден!']);
         }
 
     }
