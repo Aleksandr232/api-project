@@ -171,19 +171,19 @@ class AuthController extends Controller
      *                 type="string",
      *                 description="Приветственное сообщение с именем пользователя",
      *                 example="Добро пожаловать, Пользователь"
-     *             )
+     *             ),
      *              @OA\Property(
      *                 property="user_name",
      *                 type="string",
      *                 description="Имя пользователя",
      *                 example="Показывает данные пользователя"
-     *             )
+     *             ),
      *              @OA\Property(
      *                 property="user_name_icon",
      *                 type="string",
      *                 description="Название картинки",
      *                 example="Показывает данные пользователя"
-     *             )
+     *             ),
      *              @OA\Property(
      *                 property="user_path_icon",
      *                 type="string",
