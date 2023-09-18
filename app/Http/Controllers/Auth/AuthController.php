@@ -224,17 +224,15 @@ class AuthController extends Controller
     *     ),
     *
     * )
-    */
 
-    /**
-     * @OA\Schema(
-     *   schema="User",
-     *   required={"name", "img", "path"},
-     *   @OA\Property(property="name", type="string"),
-     *   @OA\Property(property="img", type="string"),
-     *   @OA\Property(property="path", type="string")
-     * )
-     */
+    * @OA\Schema(
+    *   schema="User",
+    *   required={"name", "img", "path"},
+    *   @OA\Property(property="name", type="string"),
+    *   @OA\Property(property="img", type="string"),
+    *   @OA\Property(property="path", type="string")
+    * )
+    */
 
 
 
