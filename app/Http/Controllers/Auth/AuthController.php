@@ -194,7 +194,13 @@ class AuthController extends Controller
         $user = $request->user();
 
         if (!empty($user->remember_token)) {
-            return response()->json(['message' => 'Добро пожаловать, ' . $user->name]);
+            return response()->json([
+                'message' => 'Добро пожаловать, ' . $user->name,
+                'name' => $user->name,
+                'img' => $user->img,
+                'path' => $user->path
+
+            ]);
         } else {
             abort(401, 'Неавторизованный доступ');
         }
