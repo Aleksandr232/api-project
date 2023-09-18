@@ -171,25 +171,8 @@ class AuthController extends Controller
      *                 type="string",
      *                 description="Приветственное сообщение с именем пользователя",
      *                 example="Добро пожаловать, Пользователь"
-     *             ),
-     *              @OA\Property(
-     *                 property="user_name",
-     *                 type="string",
-     *                 description="Имя пользователя",
-     *                 example="Показывает данные пользователя"
-     *             ),
-     *              @OA\Property(
-     *                 property="user_name_icon",
-     *                 type="string",
-     *                 description="Название картинки",
-     *                 example="Показывает данные пользователя"
-     *             ),
-     *              @OA\Property(
-     *                 property="user_path_icon",
-     *                 type="string",
-     *                 description="Путь картинки",
-     *                 example="Показывает данные пользователя"
      *             )
+     *
      *         )
      *     ),
      *     @OA\Response(
@@ -213,15 +196,49 @@ class AuthController extends Controller
 
         if (!empty($user->remember_token)) {
             return response()->json([
-                'message' => 'Добро пожаловать, ' . $user->name,
-                'user_name' => $user->name,
-                'user_name_icon' => $user->img,
-                'user_path_icon' => $user->path
-            ]);
+                'message' => 'Добро пожаловать, ' . $user->name]);
         } else {
             abort(401, 'Неавторизованный доступ');
         }
      }
+
+ /**
+ * @OA\Post(
+ *      path="api/user",
+ *      tags={"Пользователь"},
+ *      summary="Данные пользователя",
+ *      description="Показывает данные пользователя",
+ *      @OA\Response(
+ *          response=200,
+ *          description="Успешное создание пользователя",
+ *          @OA\JsonContent(
+ *              @OA\Property(property="user", type="object"),
+ *          ),
+ *      ),
+ *      @OA\Response(
+ *          response=400,
+ *          description="Ошибка запроса",
+ *          @OA\JsonContent(
+ *              @OA\Property(property="error", type="string", example="Некорректные данные пользователя"),
+ *          ),
+ *      ),
+ *  )
+ */
+
+     public function user(Request $request)
+    {
+        // Проверяем, авторизован ли пользователь
+        if(Auth::check()){
+            // Получаем данные авторизованного пользователя
+            $user = Auth::user();
+
+            // Выводим данные пользователя
+            return response()->json(['user' => $user, 200]);
+        }else{
+            // Если пользователь не авторизован, возвращаем ошибку
+            return response()->json(['error' => 'Пользователь не авторизован', 401]);
+        }
+    }
 
 
 
