@@ -228,7 +228,7 @@ class AuthController extends Controller
     *        @OA\Property(property="name", type="string"),
     *        @OA\Property(property="img", type="string"),
     *        @OA\Property(property="path", type="string")
-    *
+    *       )
     * )
     */
 
