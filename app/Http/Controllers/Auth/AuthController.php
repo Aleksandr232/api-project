@@ -212,7 +212,7 @@ class AuthController extends Controller
     *         response="200",
     *         description="Успешный запрос. Возвращает данные авторизованного пользователя.",
     *         @OA\JsonContent(
-    *             @OA\Property(property="user")
+    *             @OA\Property(property="user", type="object")
     *         )
     *     ),
     *     @OA\Response(
@@ -221,11 +221,18 @@ class AuthController extends Controller
     *         @OA\JsonContent(
     *             @OA\Property(property="error", type="string")
     *         )
-    *     )
+    *     ),
+    *     @OA\Schema(
+    *        schema="User",
+    *        required={"name", "img", "path"},
+    *        @OA\Property(property="name", type="string"),
+    *        @OA\Property(property="img", type="string"),
+    *        @OA\Property(property="path", type="string")
+    *
     * )
     */
 
-    
+
 
 
 
