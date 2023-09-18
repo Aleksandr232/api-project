@@ -115,7 +115,7 @@ class AuthController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=403,
+     *         response=401,
      *         description="Ошибка аутентификации",
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="Ошибка аутентификации")
@@ -152,7 +152,7 @@ class AuthController extends Controller
 
              return response()->json($response, 200);
          } else {
-             return response()->json(['message' => 'Ошибка аутентификации'], 403);
+             return response()->json(['message' => 'Ошибка аутентификации'], 401);
          }
      }
 
