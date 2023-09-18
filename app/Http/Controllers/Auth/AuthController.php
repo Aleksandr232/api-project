@@ -201,7 +201,7 @@ class AuthController extends Controller
             abort(401, 'Неавторизованный доступ');
         }
      }
-     
+
     /**
     *
     * @OA\Get(
@@ -212,7 +212,7 @@ class AuthController extends Controller
     *         response="200",
     *         description="Успешный запрос. Возвращает данные авторизованного пользователя.",
     *         @OA\JsonContent(
-    *             @OA\Property(property="user", ref="#/components/schemas/UserData")
+    *             @OA\Property(property="user")
     *         )
     *     ),
     *     @OA\Response(
@@ -225,15 +225,7 @@ class AuthController extends Controller
     * )
     */
 
-    /**
-     * @OA\Schema(
-     *     schema="UserData",
-     *     type="object",
-     *     @OA\Property(property="name", type="string"),
-     *     @OA\Property(property="path", type="string", format="uri"),
-     *     @OA\Property(property="img", type="string")
-     * )
-     */
+    
 
 
 
