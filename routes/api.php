@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Действия, которые требуют аутентификации пользователя
     Route::get('/dashboard', [AuthController::class, 'dashboard']);
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::resource('/user', [AuthController::class, 'user']);
+    /* Route::resource('/user', [AuthController::class, 'user']); */
 });
 
 
