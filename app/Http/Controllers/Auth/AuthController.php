@@ -205,7 +205,7 @@ class AuthController extends Controller
  /**
  * @OA\Post(
  *      path="api/user",
- *      tags={"Пользователь"},
+ *      tags={"Панель управления"},
  *      summary="Данные пользователя",
  *      description="Показывает данные пользователя",
  *      @OA\Response(
