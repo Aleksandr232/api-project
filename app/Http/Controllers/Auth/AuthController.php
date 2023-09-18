@@ -228,9 +228,9 @@ class AuthController extends Controller
     * @OA\Schema(
     *   schema="user",
     *   required={"name", "img", "path"},
-    *   @OA\Property(property="name", type="string"),
-    *   @OA\Property(property="img", type="string"),
-    *   @OA\Property(property="path", type="string")
+    *   @OA\Property(property="name", type="string", example="Имя пользователя"),
+    *   @OA\Property(property="img", type="string", example="Название иконки пользователя" ),
+    *   @OA\Property(property="path", type="string", example="https://24alexcrm.ru/user/photo/3Ke3esxeOlNweZ2UpV4fxM6VfVFRnJJbwAZoWP7.jpg" )
     * )
     */
 
