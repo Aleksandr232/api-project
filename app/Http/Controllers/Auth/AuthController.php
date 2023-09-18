@@ -212,7 +212,7 @@ class AuthController extends Controller
     *         response="200",
     *         description="Успешный запрос. Возвращает данные авторизованного пользователя.",
     *         @OA\JsonContent(
-    *             @OA\Property(property="user", type="object")
+    *             @OA\Property(property="user", type="object", ref="#/components/schemas/user")
     *         )
     *     ),
     *     @OA\Response(
