@@ -172,6 +172,24 @@ class AuthController extends Controller
      *                 description="Приветственное сообщение с именем пользователя",
      *                 example="Добро пожаловать, Пользователь"
      *             )
+     *              @OA\Property(
+     *                 property="user_name",
+     *                 type="string",
+     *                 description="Имя пользователя",
+     *                 example="Показывает данные пользователя"
+     *             )
+     *              @OA\Property(
+     *                 property="user_name_icon",
+     *                 type="string",
+     *                 description="Название картинки",
+     *                 example="Показывает данные пользователя"
+     *             )
+     *              @OA\Property(
+     *                 property="user_path_icon",
+     *                 type="string",
+     *                 description="Путь картинки",
+     *                 example="Показывает данные пользователя"
+     *             )
      *         )
      *     ),
      *     @OA\Response(
@@ -196,15 +214,16 @@ class AuthController extends Controller
         if (!empty($user->remember_token)) {
             return response()->json([
                 'message' => 'Добро пожаловать, ' . $user->name,
-                'name' => $user->name,
-                'img' => $user->img,
-                'path' => $user->path
-
+                'user_name' => $user->name,
+                'user_name_icon' => $user->img,
+                'user_path_icon' => $user->path
             ]);
         } else {
             abort(401, 'Неавторизованный доступ');
         }
      }
+
+
 
       /**
      * @OA\Post(
