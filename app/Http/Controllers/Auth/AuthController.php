@@ -203,7 +203,7 @@ class AuthController extends Controller
      }
 
  /**
- * @OA\Post(
+ * @OA\Get(
  *      path="api/user",
  *      tags={"Панель управления"},
  *      summary="Данные пользователя",
