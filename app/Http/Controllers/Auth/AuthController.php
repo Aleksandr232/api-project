@@ -53,7 +53,7 @@ class AuthController extends Controller
  *         ),
  *     ),
  *     @OA\Response(
- *         response=200,
+ *         response=201,
  *         description="Успешная регистрация",
  *         @OA\JsonContent(
  *             @OA\Property(
