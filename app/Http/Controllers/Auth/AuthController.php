@@ -201,44 +201,63 @@ class AuthController extends Controller
             abort(401, 'Неавторизованный доступ');
         }
      }
+     
+    /**
+    *
+    * @OA\Get(
+    *     path="api/user",
+    *     summary="Получение данных пользователя",
+    *     tags={"Панель управления"},
+    *     @OA\Response(
+    *         response="200",
+    *         description="Успешный запрос. Возвращает данные авторизованного пользователя.",
+    *         @OA\JsonContent(
+    *             @OA\Property(property="user", ref="#/components/schemas/UserData")
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="401",
+    *         description="Пользователь не авторизован.",
+    *         @OA\JsonContent(
+    *             @OA\Property(property="error", type="string")
+    *         )
+    *     )
+    * )
+    */
 
- /**
- * @OA\Get(
- *      path="api/user",
- *      tags={"Панель управления"},
- *      summary="Данные пользователя",
- *      description="Показывает данные пользователя",
- *      @OA\Response(
- *          response=200,
- *          description="Успешное создание пользователя",
- *          @OA\JsonContent(
- *              @OA\Property(property="user", type="object"),
- *          ),
- *      ),
- *      @OA\Response(
- *          response=400,
- *          description="Ошибка запроса",
- *          @OA\JsonContent(
- *              @OA\Property(property="error", type="string", example="Некорректные данные пользователя"),
- *          ),
- *      ),
- *  )
- */
+    /**
+     * @OA\Schema(
+     *     schema="UserData",
+     *     type="object",
+     *     @OA\Property(property="name", type="string"),
+     *     @OA\Property(property="path", type="string", format="uri"),
+     *     @OA\Property(property="img", type="string")
+     * )
+     */
 
-     public function user(Request $request)
-    {
-        // Проверяем, авторизован ли пользователь
-        if(Auth::check()){
-            // Получаем данные авторизованного пользователя
-            $user = Auth::user();
 
-            // Выводим данные пользователя
-            return response()->json(['user' => $user, 200]);
-        }else{
-            // Если пользователь не авторизован, возвращаем ошибку
-            return response()->json(['error' => 'Пользователь не авторизован', 401]);
-        }
-    }
+
+ public function user(Request $request)
+ {
+     // Проверяем, авторизован ли пользователь
+     if(Auth::check()){
+         // Получаем данные авторизованного пользователя
+         $user = Auth::user();
+
+         // Формируем объект с нужными полями
+         $userData = [
+             'name' => $user->name,
+             'path' => "https://24alexcrm.ru/user/".$user->path,
+             'img' => $user->img,
+         ];
+
+         // Возвращаем данные пользователя
+         return response()->json(['user' => $userData], 200);
+     }else{
+         // Если пользователь не авторизован, возвращаем ошибку
+         return response()->json(['error' => 'Пользователь не авторизован'], 401);
+     }
+ }
 
 
 
